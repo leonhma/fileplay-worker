@@ -55,12 +55,12 @@ export class MessageWebSocketHibernation {
 				ws.send(await request.text());
 			}
 		}
+		return new Response(null, { status: 201 });
 	}
 
 	async clearWebSocketId() {
 		await this.env.DATABASE.batch([
 			this.env.DATABASE.prepare('update devices set websocketId = null where did = ?1').bind(this.state.storage.get('did')),
-			this.env.DATABASE.prepare('update users set webSocketId = null where uid = ?1').bind(this.state.storage.get('uid')),
 		]);
 	}
 
