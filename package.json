@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler publish",
+    "deploy": "npm run deploy:staging && npm run deploy:production",
+		"deploy:staging": "npx wrangler deploy -e staging",
+		"deploy:production": "npx wrangler deploy -e production",
     "start": "wrangler dev"
   },
   "devDependencies": {

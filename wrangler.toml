@@ -2,27 +2,32 @@ name = "fileplay-worker"
 main = "src/worker.ts"
 compatibility_date = "2023-06-20"
 
-# Durable Object binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/durable-objects
-[durable_objects]
-bindings = [
-  { name = "MESSAGE_WS", class_name = "MessageWebSocketHibernation" } # Binding to our DurableObjectExample class
-]
+[placement]
+mode = "smart"
 
 [[migrations]]
 tag = "v1" # Should be unique for each entry
 new_classes = ["MessageWebSocketHibernation"]
 
-[env.staging]
-
-[[d1_databases]]
+# staging
+[[env.staging.d1_databases]]
 binding = "DATABASE"
 database_name = "fileplay-dev"
 database_id = "49d8462f-a969-475f-82b6-5f70ecd13421"
+[env.staging.durable_objects]
+bindings = [
+  { name = "MESSAGE_WS", class_name = "MessageWebSocketHibernation" } # Binding to our DurableObjectExample class
+]
 
-# [env.production]
-# 
-# [[d1_databases]]
-# binding = "DATABASE"
-# database_name = "fileplay-prod"
-# database_id = "4ce6378e-473b-4a2e-8401-7f3407ed6784"
-# 
+
+# production
+[[env.production.d1_databases]]
+binding = "DATABASE"
+database_name = "fileplay-prod"
+database_id = "4ce6378e-473b-4a2e-8401-7f3407ed6784"
+[env.production.durable_objects]
+bindings = [
+  { name = "MESSAGE_WS", class_name = "MessageWebSocketHibernation" } # Binding to our DurableObjectExample class
+]
+
+
