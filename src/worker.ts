@@ -29,7 +29,7 @@ export class MessageWebSocketHibernation {
 	async fetch(request: Request) {
 		const isUpgrade = request.headers.get('Upgrade') === 'websocket';
 		if (isUpgrade) {
-			// To accept the WebSocket request, we create a WebSocketPair (which is like a socketpair,
+			// To accept the WebSocket request, we create a WebSocketPair (which is like a socket pair,
 			// i.e. two WebSockets that talk to each other), we return one end of the pair in the
 			// response, and we operate on the other end. Note that this API is not part of the
 			// Fetch API standard; unfortunately, the Fetch API / Service Workers specs do not define
@@ -47,9 +47,11 @@ export class MessageWebSocketHibernation {
 			// socket.accept analogue in Durable Objects Hibernate API
 			this.state.acceptWebSocket(server);
 
+			console.log('websocket accepted ,returning 101');
 			// Now we return the other end of the pair to the client.
 			return new Response(null, { status: 101, webSocket: client });
 		} else {
+			console.log('upgrade header not present, sending message to websocket')
 			const ws = this.state.getWebSockets()[0];
 			if (ws) {
 				ws.send(await request.text());

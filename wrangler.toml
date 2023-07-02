@@ -1,6 +1,7 @@
 name = "fileplay-worker"
 main = "src/worker.ts"
 compatibility_date = "2023-06-20"
+usage_model = "bundled"
 
 [placement]
 mode = "smart"
